@@ -21,8 +21,6 @@ It is connecting to this boilerplate code [graphql-dataloader-boilerplate](https
     ],
 }
 ```
-Obs.: react-native-stage-0/decorator-support is to enable `@withNavigation` needed by ex-navigation
-
 ### RelayStore.js
 It is a custom Relay.Store that enables you to change your Network Layer. For instance, when you want to set the user token.
 
@@ -60,11 +58,11 @@ export default createRenderer(RelayApp, {
 
 ### ReactNavigation + Relay
 1. You should use `createRenderer` helper in any component that will be `pushed` into a `StackNavigation`
-   - For instance, check [UserList.js](./src/UserList.js)
+   - For instance, check [UserList](./src/UserList.js)
 
-- Pushing a route that uses Relay and depends on a parameter (./src/UserList.js#L85)
+- Pushing a route that uses Relay and depends on a parameter [UserList#navigate](./src/UserList.js#L81)
 
-- Define that your route will need a parameter from react-navigation like these (./src/UserDetail.js#L32)
-- You also need to define it inside `initialVariables` (./src/UserDetail.js#L35)
+- Define that your route will need a parameter from react-navigation like these [UserDetail#queriesParams](./src/UserDetail.js#L32)
+- You also need to define it inside `initialVariables` [UserDetail#initialVariables](./src/UserDetail.js#L35)
 
 
