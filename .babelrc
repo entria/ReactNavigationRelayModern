@@ -1,3 +1,12 @@
 {
-"presets": ["react-native"]
+  "retainLines": true,
+  "compact": true,
+  "comments": false,
+  "presets": [
+    "react-native",
+  ],
+  "plugins": [
+    "./plugins/babelRelayPlugin"
+  ],
+  "sourceMaps": false
 }
