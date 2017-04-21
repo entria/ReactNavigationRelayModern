@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import ViewerQuery from './ViewerQuery';
 import { createRenderer } from './RelayUtils';
 

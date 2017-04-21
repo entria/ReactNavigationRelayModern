@@ -6,7 +6,7 @@
     "react-native",
   ],
   "plugins": [
-    "./plugins/babelRelayPlugin"
+    ["relay", {"compat": true, "schema": "data/schema.json"}],
   ],
   "sourceMaps": false
 }

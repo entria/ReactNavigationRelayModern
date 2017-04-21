@@ -8,7 +8,7 @@ import {
   TouchableHighlight,
   FlatList,
 } from 'react-native';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import ViewerQuery from './ViewerQuery';
 import { createRenderer } from './RelayUtils';
 

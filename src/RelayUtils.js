@@ -11,8 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import hoistStatics from 'hoist-non-react-statics';
-import Relay from 'react-relay';
-import RelayStore from './RelayStore';
+import RelayClassic from 'react-relay/classic';
 
 type Variables = { [name: string]: mixed };
 
@@ -99,7 +98,7 @@ function createRendererInternal(
     prepareVariables,
   } = config;
 
-  const RelayComponent = Relay.createContainer(Component, {
+  const RelayComponent = RelayClassic.createContainer(Component, {
     fragments,
     initialVariables,
     prepareVariables,
@@ -112,12 +111,12 @@ function createRendererInternal(
 
     render() {
       return (
-        <Relay.Renderer
+        <RelayClassic.Renderer
           Container={RelayComponent}
           forceFetch={forceFetch || false}
           onReadyStateChange={onReadyStateChange}
           queryConfig={this.state.queryConfig}
-          environment={RelayStore}
+          environment={RelayClassic.Store}
           render={({ done, error, props, retry, stale }) => {
             if (error) {
               if (renderFailure) {
