@@ -5,27 +5,27 @@ import {
   StyleSheet,
   Text,
   View,
-  ListView,
-  RefreshControl,
   TouchableHighlight,
+  FlatList,
 } from 'react-native';
 import Relay from 'react-relay';
 import ViewerQuery from './ViewerQuery';
 import { createRenderer } from './RelayUtils';
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+type Props = {
+};
 
 type State = {
   isFetchingTop: boolean,
   isFetchinEnd: boolean,
-}
+};
 
-class UserList extends Component {
+class UserList extends Component<any, Props, State> {
   static navigationOptions = {
     title: 'UserList',
   };
 
-  state: State = {
+  state = {
     isFetchingTop: false,
     isFetchingEnd: false,
   };
@@ -65,14 +65,16 @@ class UserList extends Component {
     });
   };
 
-  renderRow = ({ node }) => {
+  renderItem = ({ item }) => {
+    const { node } = item;
+
     return (
       <TouchableHighlight onPress={() => this.goToUserDetail(node)} underlayColor="whitesmoke">
         <View style={{ margin: 20 }}>
           <Text>{node.name}</Text>
         </View>
       </TouchableHighlight>
-    )
+    );
   };
 
   goToUserDetail = (user) => {
@@ -84,26 +86,17 @@ class UserList extends Component {
   render() {
     const { users } = this.props.viewer;
 
-    console.log('UserList: ', users);
-
     return (
       <View style={styles.container}>
-        <ListView
-          pageSize={2}
-          scrollRenderAheadDistance={1000}
-          initialListSize={2}
-          dataSource={ds.cloneWithRows(users.edges)}
-          renderRow={this.renderRow}
+        <FlatList
+          data={users.edges}
+          renderItem={this.renderItem}
+          keyExtractor={item => item.node.id}
           onEndReached={this.onEndReached}
-          renderSeparator={ (secID, rowID ) => <View style={styles.separator} key={rowID}/> }
-          enableEmptySections={true}
-          removeClippedSubviews={true}
-          refreshControl={
-              <RefreshControl
-                refreshing={this.state.isFetchingTop}
-                onRefresh={this.onRefresh}
-              />
-            }
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isFetchingTop}
+          ItemSeparatorComponent={() => <View style={styles.separator}/>}
+          ListFooterComponent={this.renderFooter}
         />
       </View>
     );
