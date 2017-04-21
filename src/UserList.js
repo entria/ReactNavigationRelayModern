@@ -8,16 +8,15 @@ import {
   TouchableHighlight,
   FlatList,
 } from 'react-native';
-import Relay from 'react-relay/classic';
 import { withNavigation } from 'react-navigation';
 import hoistStatics from 'hoist-non-react-statics';
 import environment from './createRelayEnvironment';
 
-const {
+import {
   createPaginationContainer,
   graphql,
   QueryRenderer,
-} = require('react-relay/compat');
+} from 'react-relay/compat';
 
 import { type UserList_viewer } from './__generated__/UserList_viewer.graphql';
 
@@ -25,10 +24,18 @@ type Props = {
   viewer: UserDetail_viewer,
 };
 
+type State = {
+  isFetchingTop: boolean,
+};
+
 @withNavigation
-class UserList extends Component<any, Props, any> {
+class UserList extends Component<any, Props, State> {
   static navigationOptions = {
     title: 'UserList',
+  };
+
+  state = {
+    isFetchingTop: false,
   };
 
   onRefresh = () => {
@@ -38,8 +45,14 @@ class UserList extends Component<any, Props, any> {
       return;
     }
 
+    this.setState({
+      isFetchingTop: true,
+    })
+
     this.props.relay.refetchConnection(users.edges.length, (err) => {
-      console.log('refetchConnection: ', err);
+      this.setState({
+        isFetchingTop: false,
+      });
     });
   };
 
@@ -86,7 +99,7 @@ class UserList extends Component<any, Props, any> {
           keyExtractor={item => item.node.id}
           onEndReached={this.onEndReached}
           onRefresh={this.onRefresh}
-          refreshing={this.props.relay.isLoading()}
+          refreshing={this.state.isFetchingTop}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListFooterComponent={this.renderFooter}
         />
@@ -150,12 +163,10 @@ const UserListPaginationContainer = createPaginationContainer(
 );
 
 
-// TODO - fix to use RelayStaticEnvironment
-// environment={environment}
 const UserListQueryRenderer = () => {
   return (
     <QueryRenderer
-      environment={Relay.Store}
+      environment={environment}
       query={graphql`
       query UserListQuery(
         $count: Int!,
