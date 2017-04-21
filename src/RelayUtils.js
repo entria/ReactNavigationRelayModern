@@ -14,22 +14,22 @@ import hoistStatics from 'hoist-non-react-statics';
 import Relay from 'react-relay';
 import RelayStore from './RelayStore';
 
-type Variables = {[name: string]: mixed};
+type Variables = { [name: string]: mixed };
 
 type Config = {
-  queries: {[name: string]: any};
-  queriesParams?: ?(props: Object) => Object;
-  fragments: {[name: string]: any};
-  initialVariables?: Variables;
-  prepareVariables?: (prevVariables: Variables, route: any) => Variables;
-  forceFetch?: bool;
-  onReadyStateChange?: (readyState: any) => void;
+  queries: { [name: string]: any },
+  queriesParams?: ?(props: Object) => Object,
+  fragments: { [name: string]: any },
+  initialVariables?: Variables,
+  prepareVariables?: (prevVariables: Variables, route: any) => Variables,
+  forceFetch?: boolean,
+  onReadyStateChange?: (readyState: any) => void,
   renderFetched?: (
     props: Object,
-    fetchState: { done: bool; stale: bool }
-  ) => ?ReactElement<any>;
-  renderLoading?: () => ?ReactElement<any>;
-  renderFailure?: (error: Error, retry: ?() => void) => ?ReactElement<any>;
+    fetchState: { done: boolean, stale: boolean },
+  ) => ?ReactElement<any>,
+  renderLoading?: () => ?ReactElement<any>,
+  renderFailure?: (error: Error, retry: ?() => void) => ?ReactElement<any>,
 };
 
 const styles = StyleSheet.create({
@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'lightgray',
   },
+  containerError: {
+    paddingTop: 46,
+    alignItems: 'center',
+  },
 });
 
 const LoadingView = () => (
@@ -55,7 +59,7 @@ const LoadingView = () => (
 );
 
 const FailureView = ({ error, retry }) => (
-  <View style={{ paddingTop: 46, alignItems: 'center' }}>
+  <View style={styles.containerError}>
     <Text>Error</Text>
     <Text>{error.message}</Text>
     <TouchableOpacity onPress={retry}>
@@ -66,19 +70,21 @@ const FailureView = ({ error, retry }) => (
 
 export function createRenderer(
   Component: ReactClass<*>,
-  config: Config
+  config: Config,
 ): ReactClass<*> {
   return createRendererInternal(Component, {
     forceFetch: false,
     renderLoading: () => <LoadingView />,
-    renderFailure: (error, retry) => <FailureView error={error} retry={retry} />,
+    renderFailure: (error, retry) => (
+      <FailureView error={error} retry={retry} />
+    ),
     ...config,
   });
 }
 
 function createRendererInternal(
   Component: ReactClass<*>,
-  config: Config
+  config: Config,
 ): ReactClass<*> {
   const {
     queries,
@@ -119,7 +125,10 @@ function createRendererInternal(
               }
             } else if (props) {
               if (renderFetched) {
-                return renderFetched({ ...this.props, ...props }, { done, stale });
+                return renderFetched(
+                  { ...this.props, ...props },
+                  { done, stale },
+                );
               } else {
                 return <RelayComponent {...this.props} {...props} />;
               }
@@ -144,7 +153,10 @@ function createRendererInternal(
       const params = queriesParams ? queriesParams(props) : {};
 
       // remove parenthesis ( )
-      const name  = `relay_route_${RelayComponent.displayName}`.replace(/[\(|\)]/g, '_');
+      const name = `relay_route_${RelayComponent.displayName}`.replace(
+        /[\(|\)]/g,
+        '_',
+      );
 
       const queryConfig = {
         name,

@@ -1,15 +1,11 @@
 {
   "name": "ReactNavigationRelay",
-  "version": "0.0.1",
   "description": "React Navigation + Relay working example",
+  "version": "0.0.1",
   "author": {
     "name": "Sibelius Seraphini",
     "email": "sibeliusseraphini@gmail.com",
     "url": "https://github.com/sibelius"
-  },
-  "repository": {
-    "url": "git@github.com:sibelius/ReactNavigationRelay.git",
-    "type": "git"
   },
   "dependencies": {
     "babel-preset-react-native-stage-0": "^1.0.1",
@@ -20,18 +16,41 @@
     "react-relay": "^0.10.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.2",
     "babel-jest": "18.0.0",
     "babel-preset-react-native": "1.9.1",
     "babel-relay-plugin": "^0.9.3",
+    "eslint": "^3.19.0",
+    "eslint-plugin-flowtype": "^2.32.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react-native": "^2.3.2",
     "jest": "18.1.0",
+    "lint-staged": "^3.4.0",
+    "prettier": "^1.2.2",
     "react-test-renderer": "~15.4.0-rc.4"
   },
   "jest": {
     "preset": "react-native"
   },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote true --trailing-comma all --print-width 80",
+      "git add"
+    ]
+  },
+  "pre-commit": "lint:staged",
   "private": true,
+  "repository": {
+    "url": "git@github.com:sibelius/ReactNavigationRelay.git",
+    "type": "git"
+  },
   "scripts": {
+    "android:apk": "cd android && ./gradlew assembleRelease",
+    "android:install": "adb install android/app/build/outputs/apk/app-release.apk",
     "clear": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "lint": "eslint src",
+    "lint:staged": "lint-staged",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   }

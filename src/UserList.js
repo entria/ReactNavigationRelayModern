@@ -12,8 +12,7 @@ import Relay from 'react-relay';
 import ViewerQuery from './ViewerQuery';
 import { createRenderer } from './RelayUtils';
 
-type Props = {
-};
+type Props = {};
 
 type State = {
   isFetchingTop: boolean,
@@ -56,28 +55,34 @@ class UserList extends Component<any, Props, State> {
 
     this.setState({ isFetchingEnd: true });
 
-    this.props.relay.setVariables({
-      count: this.props.relay.variables.count + 10,
-    }, readyState => {
-      if (readyState.done || readyState.aborted) {
-        this.setState({ isFetchingEnd: false });
-      }
-    });
+    this.props.relay.setVariables(
+      {
+        count: this.props.relay.variables.count + 10,
+      },
+      readyState => {
+        if (readyState.done || readyState.aborted) {
+          this.setState({ isFetchingEnd: false });
+        }
+      },
+    );
   };
 
   renderItem = ({ item }) => {
     const { node } = item;
 
     return (
-      <TouchableHighlight onPress={() => this.goToUserDetail(node)} underlayColor="whitesmoke">
-        <View style={{ margin: 20 }}>
+      <TouchableHighlight
+        onPress={() => this.goToUserDetail(node)}
+        underlayColor="whitesmoke"
+      >
+        <View style={styles.userContainer}>
           <Text>{node.name}</Text>
         </View>
       </TouchableHighlight>
     );
   };
 
-  goToUserDetail = (user) => {
+  goToUserDetail = user => {
     const { navigate } = this.props.navigation;
 
     navigate('UserDetail', { id: user.id });
@@ -95,7 +100,7 @@ class UserList extends Component<any, Props, State> {
           onEndReached={this.onEndReached}
           onRefresh={this.onRefresh}
           refreshing={this.state.isFetchingTop}
-          ItemSeparatorComponent={() => <View style={styles.separator}/>}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListFooterComponent={this.renderFooter}
         />
       </View>
@@ -135,5 +140,8 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: '#cccccc',
+  },
+  userContainer: {
+    margin: 20,
   },
 });
