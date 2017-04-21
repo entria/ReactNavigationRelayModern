@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Relay from 'react-relay/classic';
-import ViewerQuery from './ViewerQuery';
-import { createRenderer } from './RelayUtils';
+
+import {
+  graphql,
+  createFragmentContainer,
+  QueryRenderer,
+} from 'react-relay/compat';
 
 class UserDetail extends Component {
   static navigationOptions = {
@@ -22,27 +26,45 @@ class UserDetail extends Component {
   }
 }
 
-// Create a Relay.Renderer container
-export default createRenderer(UserDetail, {
-  queries: ViewerQuery,
-  queriesParams: ({ navigation }) => ({
-    id: navigation.state.params.id,
-  }),
-  initialVariables: {
-    id: null,
-  },
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        user(id: $id) {
-          id
-          name
-          email
+// UserDetailFragmentContainer
+const UserDetailFragmentContainer = createFragmentContainer(
+  UserDetail,
+  graphql`
+    fragment UserDetail_viewer on Viewer {
+      user(id: $id) {
+        id
+        name
+        email
+      }
+    }
+  `,
+);
+
+// UserDetailQueryRenderer
+const UserDetailQueryRenderer = ({ navigation }) => {
+  return (
+    <QueryRenderer
+      environment={Relay.Store}
+      query={graphql`
+      query UserDetailQuery($id: ID!) {
+        viewer {
+          ...UserDetail_viewer
         }
       }
-    `,
-  },
-});
+    `}
+      variables={{id: navigation.state.params.id}}
+      render={({error, props}) => {
+        if (props) {
+          return <UserDetailFragmentContainer viewer={props.viewer} />;
+        } else {
+          return (
+            <Text>Loading</Text>
+          )
+        }
+      }}
+    />
+  )
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -51,3 +73,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default UserDetailQueryRenderer;

@@ -52,7 +52,7 @@
     "clear": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "lint": "eslint src",
     "lint:staged": "lint-staged",
-    "relay": "relay-compiler --src ./src --schema path/schema.graphql",
+    "relay": "relay-compiler --src ./src --schema data/schema.graphql",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   }
