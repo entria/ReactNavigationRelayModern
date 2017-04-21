@@ -1,14 +1,22 @@
+// @flow
+
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Relay from 'react-relay/classic';
 
 import {
   graphql,
   createFragmentContainer,
   QueryRenderer,
 } from 'react-relay/compat';
+import environment from './createRelayEnvironment';
 
-class UserDetail extends Component {
+import { type UserDetail_viewer } from './__generated__/UserDetail_viewer.graphql';
+
+type Props = {
+  viewer: UserDetail_viewer,
+};
+
+class UserDetail extends Component<void, Props, any> {
   static navigationOptions = {
     title: 'UserDetail',
   };
@@ -44,7 +52,7 @@ const UserDetailFragmentContainer = createFragmentContainer(
 const UserDetailQueryRenderer = ({ navigation }) => {
   return (
     <QueryRenderer
-      environment={Relay.Store}
+      environment={environment}
       query={graphql`
       query UserDetailQuery($id: ID!) {
         viewer {

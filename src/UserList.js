@@ -11,6 +11,7 @@ import {
 import Relay from 'react-relay/classic';
 import { withNavigation } from 'react-navigation';
 import hoistStatics from 'hoist-non-react-statics';
+import environment from './createRelayEnvironment';
 
 const {
   createPaginationContainer,
@@ -18,15 +19,16 @@ const {
   QueryRenderer,
 } = require('react-relay/compat');
 
+import { type UserList_viewer } from './__generated__/UserList_viewer.graphql';
+
+type Props = {
+  viewer: UserDetail_viewer,
+};
+
 @withNavigation
-class UserList extends Component {
+class UserList extends Component<any, Props, any> {
   static navigationOptions = {
     title: 'UserList',
-  };
-
-  state = {
-    isFetchingTop: false,
-    isFetchingEnd: false,
   };
 
   onRefresh = () => {
@@ -119,8 +121,6 @@ const UserListPaginationContainer = createPaginationContainer(
   {
     direction: 'forward',
     getConnectionFromProps(props) {
-      console.log('conn: ', props);
-
       return props.viewer && props.viewer.users;
     },
     getFragmentVariables(prevVars, totalCount) {
@@ -149,6 +149,9 @@ const UserListPaginationContainer = createPaginationContainer(
   },
 );
 
+
+// TODO - fix to use RelayStaticEnvironment
+// environment={environment}
 const UserListQueryRenderer = () => {
   return (
     <QueryRenderer
@@ -165,7 +168,6 @@ const UserListQueryRenderer = () => {
     `}
       variables={{cursor: null, count: 1}}
       render={({error, props}) => {
-        console.log('UserListQueryRenderer: ', error,  props);
         if (props) {
           return <UserListPaginationContainer viewer={props.viewer} />;
         } else {
