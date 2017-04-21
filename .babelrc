@@ -4,6 +4,7 @@
   "comments": false,
   "presets": [
     "react-native",
+    "react-native-stage-0/decorator-support"
   ],
   "plugins": [
     ["relay", {"compat": true, "schema": "data/schema.json"}],

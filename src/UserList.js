@@ -9,17 +9,17 @@ import {
   FlatList,
 } from 'react-native';
 import Relay from 'react-relay/classic';
-import ViewerQuery from './ViewerQuery';
-import { createRenderer } from './RelayUtils';
+import { withNavigation } from 'react-navigation';
+import hoistStatics from 'hoist-non-react-statics';
 
-type Props = {};
+const {
+  createPaginationContainer,
+  graphql,
+  QueryRenderer,
+} = require('react-relay/compat');
 
-type State = {
-  isFetchingTop: boolean,
-  isFetchinEnd: boolean,
-};
-
-class UserList extends Component<any, Props, State> {
+@withNavigation
+class UserList extends Component {
   static navigationOptions = {
     title: 'UserList',
   };
@@ -30,41 +30,26 @@ class UserList extends Component<any, Props, State> {
   };
 
   onRefresh = () => {
-    const { isFetchingTop } = this.state;
+    const { users } = this.props.viewer;
 
-    if (isFetchingTop) return;
+    if (this.props.relay.isLoading()) {
+      return;
+    }
 
-    this.setState({ isFetchingTop: true });
-
-    this.props.relay.forceFetch({}, readyState => {
-      if (readyState.done || readyState.aborted) {
-        this.setState({
-          isFetchingTop: false,
-          isFetchingEnd: false,
-        });
-      }
+    this.props.relay.refetchConnection(users.edges.length, (err) => {
+      console.log('refetchConnection: ', err);
     });
   };
 
   onEndReached = () => {
-    const { isFetchingEnd } = this.state;
-    const { users } = this.props.viewer;
+    if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
+      return;
+    }
 
-    if (isFetchingEnd) return;
-    if (!users.pageInfo.hasNextPage) return;
-
-    this.setState({ isFetchingEnd: true });
-
-    this.props.relay.setVariables(
-      {
-        count: this.props.relay.variables.count + 10,
-      },
-      readyState => {
-        if (readyState.done || readyState.aborted) {
-          this.setState({ isFetchingEnd: false });
-        }
-      },
-    );
+    // fetch more 2
+    this.props.relay.loadMore(2, (err) => {
+      console.log('loadMore: ', err);
+    });
   };
 
   renderItem = ({ item }) => {
@@ -99,7 +84,7 @@ class UserList extends Component<any, Props, State> {
           keyExtractor={item => item.node.id}
           onEndReached={this.onEndReached}
           onRefresh={this.onRefresh}
-          refreshing={this.state.isFetchingTop}
+          refreshing={this.props.relay.isLoading()}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListFooterComponent={this.renderFooter}
         />
@@ -108,18 +93,18 @@ class UserList extends Component<any, Props, State> {
   }
 }
 
-// Create a Relay.Renderer container
-export default createRenderer(UserList, {
-  queries: ViewerQuery,
-  initialVariables: {
-    count: 5,
-  },
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        users(first: $count) {
+const UserListPaginationContainer = createPaginationContainer(
+  UserList,
+  {
+    viewer: graphql`
+      fragment UserList_viewer on Viewer {
+        users(
+          first: $count
+          after: $cursor
+        ) @connection(key: "UserList_users") {
           pageInfo {
             hasNextPage
+            endCursor
           }
           edges {
             node {
@@ -128,10 +113,72 @@ export default createRenderer(UserList, {
             }
           }
         }
+      } 
+    `,
+  },
+  {
+    direction: 'forward',
+    getConnectionFromProps(props) {
+      console.log('conn: ', props);
+
+      return props.viewer && props.viewer.users;
+    },
+    getFragmentVariables(prevVars, totalCount) {
+      return {
+        ...prevVars,
+        count: totalCount,
+      };
+    },
+    getVariables(props, { count, cursor }, fragmentVariables) {
+      return {
+        count,
+        cursor,
+      };
+    },
+    variables: { cursor: null },
+    query: graphql`
+      query UserListPaginationQuery (
+        $count: Int!,
+        $cursor: String
+      ) {
+        viewer {
+          ...UserList_viewer
+        }
       }
     `,
   },
-});
+);
+
+const UserListQueryRenderer = () => {
+  return (
+    <QueryRenderer
+      environment={Relay.Store}
+      query={graphql`
+      query UserListQuery(
+        $count: Int!,
+        $cursor: String
+      ) {
+        viewer {
+          ...UserList_viewer
+        }
+      }
+    `}
+      variables={{cursor: null, count: 1}}
+      render={({error, props}) => {
+        console.log('UserListQueryRenderer: ', error,  props);
+        if (props) {
+          return <UserListPaginationContainer viewer={props.viewer} />;
+        } else {
+          return (
+            <Text>Loading</Text>
+          )
+        }
+      }}
+    />
+  )
+};
+
+export default hoistStatics(UserListQueryRenderer, UserList);
 
 const styles = StyleSheet.create({
   container: {
