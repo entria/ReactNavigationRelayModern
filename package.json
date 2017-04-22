@@ -18,7 +18,7 @@
   "devDependencies": {
     "babel-eslint": "^7.2.2",
     "babel-jest": "18.0.0",
-    "babel-plugin-relay": "1.0.0-rc.2",
+    "babel-plugin-relay": "1.0.1-rc.2",
     "babel-preset-react-native": "1.9.1",
     "eslint": "^3.19.0",
     "eslint-plugin-flowtype": "^2.32.1",
@@ -28,6 +28,7 @@
     "jest": "18.1.0",
     "lint-staged": "^3.4.0",
     "prettier": "^1.2.2",
+    "react-devtools": "^2.0.12",
     "react-test-renderer": "~15.4.0-rc.4",
     "relay-compiler": "1.0.0-rc.2"
   },
@@ -50,6 +51,7 @@
     "android:apk": "cd android && ./gradlew assembleRelease",
     "android:install": "adb install android/app/build/outputs/apk/app-release.apk",
     "clear": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "devtools": "react-devtools",
     "lint": "eslint src",
     "lint:staged": "lint-staged",
     "relay": "relay-compiler --src ./src --schema data/schema.graphql",
