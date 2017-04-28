@@ -11,14 +11,14 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "hoist-non-react-statics": "^1.2.0",
     "react": "16.0.0-alpha.6",
-    "react-native": "0.43.3",
-    "react-navigation": "git+https://github.com/react-community/react-navigation.git",
-    "react-relay": "1.0.0-rc.2"
+    "react-native": "0.43.4",
+    "react-navigation": "1.0.0-beta.9",
+    "react-relay": "1.0.0-rc.3"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.2",
-    "babel-jest": "18.0.0",
-    "babel-plugin-relay": "1.0.1-rc.2",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "19.0.0",
+    "babel-plugin-relay": "1.0.1-rc.3",
     "babel-preset-react-native": "1.9.1",
     "eslint": "^3.19.0",
     "eslint-plugin-flowtype": "^2.32.1",
@@ -28,9 +28,9 @@
     "jest": "18.1.0",
     "lint-staged": "^3.4.0",
     "prettier": "^1.2.2",
-    "react-devtools": "^2.0.12",
-    "react-test-renderer": "~15.4.0-rc.4",
-    "relay-compiler": "1.0.0-rc.2"
+    "react-devtools": "^2.1.0",
+    "react-test-renderer": "~15.4.4",
+    "relay-compiler": "1.0.0-rc.3"
   },
   "jest": {
     "preset": "react-native"

@@ -7,7 +7,7 @@ import {
   graphql,
   createFragmentContainer,
   QueryRenderer,
-} from 'react-relay/compat';
+} from 'react-relay';
 import environment from './createRelayEnvironment';
 
 import { type UserDetail_viewer } from './__generated__/UserDetail_viewer.graphql';

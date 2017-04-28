@@ -16,7 +16,7 @@ import {
   createPaginationContainer,
   graphql,
   QueryRenderer,
-} from 'react-relay/compat';
+} from 'react-relay';
 
 import { type UserList_viewer } from './__generated__/UserList_viewer.graphql';
 
