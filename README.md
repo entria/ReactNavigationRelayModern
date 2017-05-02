@@ -1,68 +1,32 @@
-# React Native + React-Navigation + Relay
+# React Native + React-Navigation + Relay Modern
 
-This is a sample repository that shows how to integrate React Native with [ReactNavigation](https://github.com/react-community/react-navigation) and Relay
+This is a sample repository that shows how to integrate React Native with [ReactNavigation](https://github.com/react-community/react-navigation) and [Relay Modern](https://facebook.github.io/relay/)
 
 It is connecting to this boilerplate code [graphql-dataloader-boilerplate](https://github.com/entria/graphql-dataloader-boilerplate)
 
 ![alt tag](./demo/demo.gif)
 
 ## Description
-- data folder contains schema(.json/.graphql) of your backend graphql server, it will be used by Relay to compile your Relay.QL queries to code.
-- plugins folder has babelRelayPlugin configuration, that tells to Relay with schema.json it should use to compile Relay.QL queries
+- `data/` contains schema(.json/.graphql) of your GraphQL server. It will be used by Relay to compile your *graphql* queries to code
+- `yarn relay` or `yarn relay:watch` are used to convert *graphql* literals into generated files. The second command watch changes when `data/` files are udpated
 
-.babelrc for Relay
+[`.babelrc`](.babelrc) for Relay Modern
 ```json
 {
-    "presets": [
-        "react-native",
-    ],
-    "plugins": [
-        "./plugins/babelRelayPlugin"
-    ],
+  "plugins": [
+    ["relay", {"schema": "data/schema.json"}]
+  ],
 }
 ```
-### RelayStore.js
-It is a custom Relay.Store that enables you to change your Network Layer. For instance, when you want to set the user token.
 
-- Usage:
-```js
-RelayStore.reset(
-  new Relay.DefaultNetworkLayer('http://localhost:5000/graphql')
-);
-```
+### Relay Environment
+The file [src/createRelayEnvironment.js](src/createRelayEnvironment.js) creates a Relay Environment and a Network instance that configures Relay with a function to fetch queries from the remote server
 
-### RelayUtils.js
-Based on https://gist.github.com/janicduplessis/f513032eb37cdde5d050d9ce8cf0b92a by @janicduplessis
-Provides a very handy function to create a Relay.Renderer container to fetch data from Relay
+### ReactNavigation + Relay Modern
+1. You should use a Relay Container such as *[FragmentContainer](https://facebook.github.io/relay/docs/fragment-container.html)*, *[PaginationContainer](https://facebook.github.io/relay/docs/pagination-container.html)* or others in any component that will be `pushed` into a `StackNavigation`
+   - For instance, check [UserList#createPaginationContainer](./src/UserList.js#L111)
 
-- Usage:
-```jsx
-import { createRenderer } from './RelayUtils'
-export default createRenderer(RelayApp, {
-  queries: ViewerQuery,
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        users(first: 10) {
-          edges {
-            node {
-              name
-            }
-          }
-        }
-      }
-    `,
-  },
-});
-```
+- Pushing a route that uses Relay and depends on a parameter [UserList#navigate](./src/UserList.js#L88)
 
-### ReactNavigation + Relay
-1. You should use `createRenderer` helper in any component that will be `pushed` into a `StackNavigation`
-   - For instance, check [UserList](./src/UserList.js)
-
-- Pushing a route that uses Relay and depends on a parameter [UserList#navigate](./src/UserList.js#L81)
-
-- Define that your route will need a parameter from react-navigation like these [UserDetail#queriesParams](./src/UserDetail.js#L32)
-- You also need to define it inside `initialVariables` [UserDetail#initialVariables](./src/UserDetail.js#L35)
-
-
+- Define that your route will need a parameter from react-navigation like these [UserDetail#query](./src/UserDetail.js#L57)
+- You also need to define it inside `variables` [UserDetail#variables](./src/UserDetail.js#L63)
