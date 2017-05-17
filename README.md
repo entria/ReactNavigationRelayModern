@@ -1,6 +1,8 @@
 # React Native + React-Navigation + Relay Modern
 
-This is a sample repository that shows how to integrate React Native with [ReactNavigation](https://github.com/react-community/react-navigation) and [Relay Modern](https://facebook.github.io/relay/)
+This is a sample repository that shows how to integrate React Native with [ReactNavigation](https://github.com/react-community/react-navigation) and [Relay Modern](https://facebook.github.io/relay/).
+
+For the Relay-Classic Version see this [branch](https://github.com/sibelius/ReactNavigationRelayModern/tree/relay-classic) 
 
 It is connecting to this boilerplate code [graphql-dataloader-boilerplate](https://github.com/entria/graphql-dataloader-boilerplate)
 
