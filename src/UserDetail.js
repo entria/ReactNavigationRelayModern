@@ -10,10 +10,10 @@ import {
 } from 'react-relay';
 import environment from './createRelayEnvironment';
 
-import { type UserDetail_viewer } from './__generated__/UserDetail_viewer.graphql';
+import { type UserDetail_query } from './__generated__/UserDetail_query.graphql';
 
 type Props = {
-  viewer: UserDetail_viewer,
+  query: UserDetail_query,
 };
 
 class UserDetail extends Component<void, Props, any> {
@@ -22,7 +22,7 @@ class UserDetail extends Component<void, Props, any> {
   };
 
   render() {
-    const { user } = this.props.viewer;
+    const { user } = this.props.query;
 
     return (
       <View style={styles.container}>
@@ -38,7 +38,7 @@ class UserDetail extends Component<void, Props, any> {
 const UserDetailFragmentContainer = createFragmentContainer(
   UserDetail,
   graphql`
-    fragment UserDetail_viewer on Viewer {
+    fragment UserDetail_query on Query {
       user(id: $id) {
         id
         name
@@ -55,15 +55,13 @@ const UserDetailQueryRenderer = ({ navigation }) => {
       environment={environment}
       query={graphql`
       query UserDetailQuery($id: ID!) {
-        viewer {
-          ...UserDetail_viewer
-        }
+        ...UserDetail_query
       }
     `}
       variables={{id: navigation.state.params.id}}
       render={({error, props}) => {
         if (props) {
-          return <UserDetailFragmentContainer viewer={props.viewer} />;
+          return <UserDetailFragmentContainer query={props} />;
         } else {
           return (
             <Text>Loading</Text>
