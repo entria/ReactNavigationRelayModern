@@ -18,10 +18,10 @@ import {
   QueryRenderer,
 } from 'react-relay';
 
-import { type UserList_viewer } from './__generated__/UserList_viewer.graphql';
+import { type UserList_query } from './__generated__/UserList_query.graphql';
 
 type Props = {
-  viewer: UserDetail_viewer,
+  query: UserDetail_query,
 };
 
 type State = {
@@ -39,7 +39,7 @@ class UserList extends Component<any, Props, State> {
   };
 
   onRefresh = () => {
-    const { users } = this.props.viewer;
+    const { users } = this.props.query;
 
     if (this.props.relay.isLoading()) {
       return;
@@ -89,7 +89,7 @@ class UserList extends Component<any, Props, State> {
   };
 
   render() {
-    const { users } = this.props.viewer;
+    const { users } = this.props.query;
 
     return (
       <View style={styles.container}>
@@ -111,8 +111,8 @@ class UserList extends Component<any, Props, State> {
 const UserListPaginationContainer = createPaginationContainer(
   UserList,
   {
-    viewer: graphql`
-      fragment UserList_viewer on Viewer {
+    query: graphql`
+      fragment UserList_query on Query {
         users(
           first: $count
           after: $cursor
@@ -134,7 +134,7 @@ const UserListPaginationContainer = createPaginationContainer(
   {
     direction: 'forward',
     getConnectionFromProps(props) {
-      return props.viewer && props.viewer.users;
+      return props.query && props.query.users;
     },
     getFragmentVariables(prevVars, totalCount) {
       return {
@@ -154,9 +154,7 @@ const UserListPaginationContainer = createPaginationContainer(
         $count: Int!,
         $cursor: String
       ) {
-        viewer {
-          ...UserList_viewer
-        }
+        ...UserList_query
       }
     `,
   },
@@ -172,15 +170,13 @@ const UserListQueryRenderer = () => {
         $count: Int!,
         $cursor: String
       ) {
-        viewer {
-          ...UserList_viewer
-        }
+        ...UserList_query
       }
     `}
       variables={{cursor: null, count: 1}}
       render={({error, props}) => {
         if (props) {
-          return <UserListPaginationContainer viewer={props.viewer} />;
+          return <UserListPaginationContainer query={props} />;
         } else {
           return (
             <Text>Loading</Text>
