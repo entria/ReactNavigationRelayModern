@@ -15,7 +15,11 @@ export default class UserRow extends Component<void, Props, any> {
     const { onPress, user } = this.props
 
     return (
-      <TouchableHighlight onPress={onPress} underlayColor="whitesmoke">
+      <TouchableHighlight
+        key={user.id}
+        onPress={onPress}
+        underlayColor="whitesmoke"
+      >
         <View style={styles.container}>
           <Text>{user.name}</Text>
         </View>
@@ -28,10 +32,9 @@ export default class UserRow extends Component<void, Props, any> {
 createFragmentContainer(
   UserRow,
   graphql`
-    fragment UserRow_query on Query {
-      user(id: $id) {
-        name
-      }
+    fragment UserRowFragment on User {
+      id
+      name
     }
   `
 )
@@ -41,4 +44,3 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 })
-

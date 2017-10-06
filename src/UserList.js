@@ -17,7 +17,7 @@ import {
 } from 'react-relay';
 
 import { type UserList_query } from './__generated__/UserList_query.graphql';
-import { type UserRow_query } from './__generated__/UserRow_query.graphql';
+import { type UserRowFragment } from './__generated__/UserRowFragment.graphql';
 import UserRow from './UserRow'
 
 type Props = {
@@ -116,7 +116,9 @@ const UserListPaginationContainer = createPaginationContainer(
           }
           edges {
             node {
-              ...UserRow_query
+              id # remove this after fix UserRowFragment
+              name # remove this after fix UserRowFragment
+              ...UserRowFragment
             }
           }
         }
