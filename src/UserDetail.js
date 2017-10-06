@@ -6,9 +6,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import {
   graphql,
   createFragmentContainer,
-  QueryRenderer,
 } from 'react-relay';
 import environment from './createRelayEnvironment';
+import createQueryRenderer from './utils/createQueryRenderer'
 
 import { type UserDetail_query } from './__generated__/UserDetail_query.graphql';
 
@@ -49,28 +49,19 @@ const UserDetailFragmentContainer = createFragmentContainer(
 );
 
 // UserDetailQueryRenderer
-const UserDetailQueryRenderer = ({ navigation }) => {
-  return (
-    <QueryRenderer
-      environment={environment}
-      query={graphql`
+const UserDetailQueryRenderer = ({ navigation, ...props }) => {
+  const QueryRenderer = createQueryRenderer(UserDetailFragmentContainer, {
+    query: graphql`
       query UserDetailQuery($id: ID!) {
         ...UserDetail_query
       }
-    `}
-      variables={{id: navigation.state.params.id}}
-      render={({error, props}) => {
-        if (props) {
-          return <UserDetailFragmentContainer query={props} />;
-        } else {
-          return (
-            <Text>Loading</Text>
-          )
-        }
-      }}
-    />
-  )
-};
+    `,
+    variables: { id: navigation.state.params.id },
+    environment,
+  })
+
+  return <QueryRenderer {...props} />
+}
 
 const styles = StyleSheet.create({
   container: {

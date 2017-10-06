@@ -3,18 +3,17 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   FlatList,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import hoistStatics from 'hoist-non-react-statics';
 import environment from './createRelayEnvironment';
+import createQueryRenderer from './utils/createQueryRenderer'
 
 import {
   createPaginationContainer,
   graphql,
-  QueryRenderer,
 } from 'react-relay';
 
 import { type UserList_query } from './__generated__/UserList_query.graphql';
@@ -153,32 +152,22 @@ const UserListPaginationContainer = createPaginationContainer(
   },
 );
 
-
-const UserListQueryRenderer = () => {
-  return (
-    <QueryRenderer
-      environment={environment}
-      query={graphql`
+const UserListQueryRenderer = props => {
+  const QueryRenderer = createQueryRenderer(UserListPaginationContainer, {
+    query: graphql`
       query UserListQuery(
         $count: Int!,
         $cursor: String
       ) {
         ...UserList_query
       }
-    `}
-      variables={{cursor: null, count: 1}}
-      render={({error, props}) => {
-        if (props) {
-          return <UserListPaginationContainer query={props} />;
-        } else {
-          return (
-            <Text>Loading</Text>
-          )
-        }
-      }}
-    />
-  )
-};
+    `,
+    variables: { cursor: null, count: 1 },
+    environment,
+  })
+
+  return <QueryRenderer {...props} />
+}
 
 export default hoistStatics(UserListQueryRenderer, UserList);
 
