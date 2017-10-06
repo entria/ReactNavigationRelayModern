@@ -19,6 +19,7 @@ import {
 } from 'react-relay';
 
 import { type UserList_query } from './__generated__/UserList_query.graphql';
+import UserRow from './UserRow'
 
 type Props = {
   query: UserDetail_query,
@@ -71,14 +72,7 @@ class UserList extends Component<any, Props, State> {
     const { node } = item;
 
     return (
-      <TouchableHighlight
-        onPress={() => this.goToUserDetail(node)}
-        underlayColor="whitesmoke"
-      >
-        <View style={styles.userContainer}>
-          <Text>{node.name}</Text>
-        </View>
-      </TouchableHighlight>
+      <UserRow user={node} onPress={() => this.goToUserDetail(node)} />
     );
   };
 
@@ -196,8 +190,5 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: '#cccccc',
-  },
-  userContainer: {
-    margin: 20,
   },
 });
