@@ -17,6 +17,7 @@ import {
 } from 'react-relay';
 
 import { type UserList_query } from './__generated__/UserList_query.graphql';
+import { type UserRow_query } from './__generated__/UserRow_query.graphql';
 import UserRow from './UserRow'
 
 type Props = {
@@ -67,10 +68,10 @@ class UserList extends Component<any, Props, State> {
   };
 
   renderItem = ({ item }) => {
-    const { node } = item;
+    const { node: user } = item;
 
     return (
-      <UserRow userId={node.id} onPress={() => this.goToUserDetail(node)} />
+      <UserRow user={user} onPress={() => this.goToUserDetail(user)} />
     );
   };
 
@@ -115,8 +116,7 @@ const UserListPaginationContainer = createPaginationContainer(
           }
           edges {
             node {
-              id
-              name
+              ...UserRow_query
             }
           }
         }
