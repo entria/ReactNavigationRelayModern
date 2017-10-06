@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
   FlatList,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
@@ -72,7 +71,7 @@ class UserList extends Component<any, Props, State> {
     const { node } = item;
 
     return (
-      <UserRow user={node} onPress={() => this.goToUserDetail(node)} />
+      <UserRow userId={node.id} onPress={() => this.goToUserDetail(node)} />
     );
   };
 

@@ -3,14 +3,19 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 
+import { graphql, createFragmentContainer, QueryRenderer } from 'react-relay'
+import environment from './createRelayEnvironment'
+
+import { type UserRow_query } from './__generated__/UserRow_query.graphql'
+
 type Props = {
   onPress: Function,
-  user: Object,
+  query: UserRow_query,
 }
 
-export default class UserRow extends Component<void, Props, any> {
+class UserRow extends Component<void, Props, any> {
   render() {
-    const { onPress, user } = this.props
+    const { onPress, query: { user } } = this.props
 
     return (
       <TouchableHighlight onPress={onPress} underlayColor="whitesmoke">
@@ -22,8 +27,44 @@ export default class UserRow extends Component<void, Props, any> {
   }
 }
 
+// UserRowFragmentContainer
+const UserRowFragmentContainer = createFragmentContainer(
+  UserRow,
+  graphql`
+    fragment UserRow_query on Query {
+      user(id: $id) {
+        name
+      }
+    }
+  `
+)
+
+// UserRowQueryRenderer
+const UserRowQueryRenderer = ({ onPress, userId }) => {
+  return (
+    <QueryRenderer
+      environment={environment}
+      query={graphql`
+      query UserRowQuery($id: ID!) {
+        ...UserRow_query
+      }
+    `}
+      variables={{ id: userId }}
+      render={({ error, props }) => {
+        if (props) {
+          return <UserRowFragmentContainer query={props} onPress={onPress} />
+        } else {
+          return <Text>Loading</Text>
+        }
+      }}
+    />
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     margin: 20,
   },
 })
+
+export default UserRowQueryRenderer
