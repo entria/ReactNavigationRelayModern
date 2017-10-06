@@ -29,7 +29,7 @@ export default class UserRow extends Component<void, Props, any> {
 }
 
 // UserRowFragmentContainer
-createFragmentContainer(
+export const UserRowFragmentContainer = createFragmentContainer(
   UserRow,
   graphql`
     fragment UserRowFragment on User {
