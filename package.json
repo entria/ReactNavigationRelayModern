@@ -13,7 +13,7 @@
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.4",
     "react-navigation": "1.0.0-beta.9",
-    "react-relay": "1.0.0-rc.3"
+    "react-relay": "1.4.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
@@ -29,8 +29,8 @@
     "lint-staged": "^3.4.0",
     "prettier": "^1.2.2",
     "react-devtools": "^2.1.0",
-    "react-test-renderer": "~15.4.4",
-    "relay-compiler": "1.0.0-rc.3"
+    "react-test-renderer": "16.0.0-alpha.6",
+    "relay-compiler": "1.4.1"
   },
   "jest": {
     "preset": "react-native"

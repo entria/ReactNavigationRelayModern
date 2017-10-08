@@ -4253,9 +4253,9 @@ react-static-container@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
 
-react-test-renderer@~15.4.4:
-  version "16.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0-beta.5.tgz#6169e2ea96e8d21645662b369c23239974cd1f11"
+react-test-renderer@16.0.0-alpha.6:
+  version "16.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0-alpha.6.tgz#c032def0dc8319cee39caa4e4373a60019cb3786"
   dependencies:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
