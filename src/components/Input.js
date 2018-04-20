@@ -15,7 +15,15 @@ const RegisterTextInput = styled.TextInput`
   width: 100%;
 `;
 
-const Input = (props) => (
+type Props = {
+  name?: string,
+  placeholder?: string,
+  value?: string,
+  onChangeText?: (string) => void,
+  secureTextEntry?: boolean,
+};
+
+const Input = (props: Props) => (
   <InputWrapper>
     <RegisterTextInput {...props}/>
   </InputWrapper>

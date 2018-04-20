@@ -1,9 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-  Text,
-} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
 
@@ -21,12 +18,10 @@ const ButtonText = styled.Text`
   font-size: 24px;
 `;
 
-type Props = {
-  query: UserDetail_query,
-};
-
 type State = {
-  isFetchingTop: boolean,
+  name: string,
+  email: string,
+  password: string,
 };
 
 @withNavigation
@@ -54,6 +49,7 @@ class UserCreate extends Component<any, Props, State> {
 
     RegisterEmailMutation.commit(input, onCompleted, onError);
   }
+
   state = {
     name: '',
     email: '',
@@ -62,7 +58,6 @@ class UserCreate extends Component<any, Props, State> {
 
   render() {
     const { name, email, password } = this.state;
-    console.log(name);
     return (
       <Wrapper>
         <Input

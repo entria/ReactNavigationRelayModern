@@ -17,13 +17,12 @@ const Wrapper = styled.TouchableOpacity`
   margin-right: auto;
 `;
 
-const ButtonText = styled.Text`
-  color: #000;
-  font-size: 32px;
-  font-weight: 700;
-`
+type Props = {
+  onPress?: (void) => void,
+  children?: Node
+};
 
-const Button = (props: Object) => (
+const Button = (props: Props) => (
   <Wrapper onPress={() => props.onPress()}>
     {props.children}
   </Wrapper>
