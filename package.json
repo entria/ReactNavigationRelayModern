@@ -14,6 +14,7 @@
     "react-native": "0.43.4",
     "react-navigation": "1.0.0-beta.9",
     "react-relay": "1.4.1",
+    "relay-compiler": "^1.5.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
@@ -30,8 +31,7 @@
     "lint-staged": "^3.4.0",
     "prettier": "^1.2.2",
     "react-devtools": "^2.1.0",
-    "react-test-renderer": "16.0.0-alpha.6",
-    "relay-compiler": "1.4.1"
+    "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {
     "preset": "react-native"
