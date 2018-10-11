@@ -10,7 +10,7 @@ It is connecting to this boilerplate code [graphql-dataloader-boilerplate](https
 
 ## Description
 - `data/` contains schema(.json/.graphql) of your GraphQL server. It will be used by Relay to compile your *graphql* queries to code
-- `yarn relay` or `yarn relay:watch` are used to convert *graphql* literals into generated files. The second command watch changes when `data/` files are udpated
+- `yarn relay` or `yarn relay:watch` are used to convert *graphql* literals into generated files. The second command watch changes when `data/` files are updated
 
 [`.babelrc`](.babelrc) for Relay Modern
 ```json
