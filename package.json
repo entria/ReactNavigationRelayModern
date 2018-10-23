@@ -36,7 +36,8 @@
     "prettier": "^1.14.3",
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.2",
-    "relay-compiler": "1.6.2"
+    "relay-compiler": "1.6.2",
+    "relay-devtools": "^1.4.0"
   },
   "jest": {
     "preset": "react-native"

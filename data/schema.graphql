@@ -1,33 +1,7 @@
-input ChangePasswordInput {
-  oldPassword: String!
-
-  """user new password"""
-  password: String!
-  clientMutationId: String
-}
-
-type ChangePasswordPayload {
-  error: String
-  me: User
-  clientMutationId: String
-}
-
-input LoginEmailInput {
-  email: String!
-  password: String!
-  clientMutationId: String
-}
-
-type LoginEmailPayload {
-  token: String
-  error: String
-  clientMutationId: String
-}
-
 type Mutation {
-  LoginEmail(input: LoginEmailInput!): LoginEmailPayload
-  RegisterEmail(input: RegisterEmailInput!): RegisterEmailPayload
-  ChangePassword(input: ChangePasswordInput!): ChangePasswordPayload
+  UserChangePassword(input: UserChangePasswordInput!): UserChangePasswordPayload
+  UserLoginWithEmail(input: UserLoginWithEmailInput!): UserLoginWithEmailPayload
+  UserRegisterWithEmail(input: UserRegisterWithEmailInput!): UserRegisterWithEmailPayload
 }
 
 """An object with an ID"""
@@ -37,7 +11,7 @@ interface Node {
 }
 
 """Information about pagination in a connection."""
-type PageInfo {
+type PageInfoExtended {
   """When paginating forwards, are there more items?"""
   hasNextPage: Boolean!
 
@@ -63,19 +37,6 @@ type Query {
   users(after: String, first: Int, before: String, last: Int, search: String): UserConnection
 }
 
-input RegisterEmailInput {
-  name: String!
-  email: String!
-  password: String!
-  clientMutationId: String
-}
-
-type RegisterEmailPayload {
-  token: String
-  error: String
-  clientMutationId: String
-}
-
 type Subscription {
   UserAdded: UserAddedPayload
 }
@@ -94,21 +55,76 @@ type UserAddedPayload {
   userEdge: UserEdge
 }
 
+input UserChangePasswordInput {
+  oldPassword: String!
+
+  """user new password"""
+  password: String!
+  clientMutationId: String
+}
+
+type UserChangePasswordPayload {
+  error: String
+  me: User
+  clientMutationId: String
+}
+
 """A connection to a list of items."""
 type UserConnection {
+  """Number of items in this connection"""
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """Offset from start"""
+  startCursorOffset: Int!
+
+  """Offset till end"""
+  endCursorOffset: Int!
+
   """Information to aid in pagination."""
-  pageInfo: PageInfo!
+  pageInfo: PageInfoExtended!
 
   """A list of edges."""
-  edges: [UserEdge]
-  count: Int
+  edges: [UserEdge]!
 }
 
 """An edge in a connection."""
 type UserEdge {
   """The item at the end of the edge"""
-  node: User
+  node: User!
 
   """A cursor for use in pagination"""
   cursor: String!
+}
+
+input UserLoginWithEmailInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserLoginWithEmailPayload {
+  token: String
+  error: String
+  clientMutationId: String
+}
+
+input UserRegisterWithEmailInput {
+  name: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserRegisterWithEmailPayload {
+  token: String
+  error: String
+  clientMutationId: String
 }

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import Button from './components/Button';
 import Input from './components/Input';
-import RegisterEmailMutation from './RegisterEmailMutation.js';
+import UserRegisterWithEmailMutation from './UserRegisterWithEmailMutation.js';
 
 const Wrapper = styled.View`
   flex: 1;
@@ -29,6 +29,12 @@ class UserCreate extends Component<any, Props, State> {
     title: 'UserCreate',
   };
 
+  state = {
+    name: '',
+    email: '',
+    password: '',
+  };
+
   handleRegister = () => {
     const { name, email, password } = this.state;
 
@@ -40,19 +46,19 @@ class UserCreate extends Component<any, Props, State> {
 
     const onCompleted = () => {
       console.log('onCompleted');
+
+      this.props.navigation.navigate('UserList');
     }
 
     const onError = () => {
       console.log('onError');
     }
 
-    RegisterEmailMutation.commit(input, onCompleted, onError);
+    UserRegisterWithEmailMutation.commit(input, onCompleted, onError);
   }
 
-  state = {
-    name: '',
-    email: '',
-    password: '',
+  goToList = () => {
+    this.props.navigation.navigate('UserList');
   };
 
   render() {
@@ -81,9 +87,13 @@ class UserCreate extends Component<any, Props, State> {
         <Button onPress={() => this.handleRegister()}>
           <ButtonText>Register</ButtonText>
         </Button>
+
+        <Button onPress={() => this.goToList()}>
+          <ButtonText>Lista de usuários</ButtonText>
+        </Button>
       </Wrapper>
     );
   }
 }
 
-export default withNavigation(UserCreate);
+export default UserCreate;
