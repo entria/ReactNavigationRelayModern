@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
-import styled from 'styled-components/native';
+import styled from 'styled-components';
 
 import Button from './components/Button';
 import Input from './components/Input';
@@ -24,7 +24,6 @@ type State = {
   password: string,
 };
 
-@withNavigation
 class UserCreate extends Component<any, Props, State> {
   static navigationOptions = {
     title: 'UserCreate',
@@ -87,4 +86,4 @@ class UserCreate extends Component<any, Props, State> {
   }
 }
 
-export default  UserCreate;
+export default withNavigation(UserCreate);
