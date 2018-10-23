@@ -1,13 +1,19 @@
 {
-  "retainLines": true,
-  "compact": true,
-  "comments": false,
   "presets": [
-    "react-native",
-    "react-native-stage-0/decorator-support"
+    "module:metro-react-native-babel-preset",
+    "module:react-native-dotenv"
   ],
   "plugins": [
-    ["relay", {"schema": "data/schema.json"}]
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-export-default-from",
+    [
+      "relay", {"schema": "data/schema.json"}
+    ]
   ],
-  "sourceMaps": false
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  },
+  "sourceMaps": true
 }
