@@ -2482,7 +2482,7 @@ electron-download@^3.0.1:
     semver "^5.3.0"
     sumchecker "^1.2.0"
 
-electron@^1.8.7:
+electron@^1.6.11, electron@^1.8.7:
   version "1.8.8"
   resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.8.tgz#a90cddb075291f49576993e6f5c8bb4439301cae"
   integrity sha1-/Bc27swxcfHE3KshnvYQNdK6kQE=
@@ -6496,6 +6496,16 @@ relay-compiler@1.6.2:
     signedsource "^1.0.0"
     yargs "^9.0.0"
 
+relay-devtools@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/relay-devtools/-/relay-devtools-1.4.0.tgz#7456c4ed3ad1e06f559fd80a77fee17f9e8edf80"
+  integrity sha512-QvpruN+YtcY6DxKWcpJbO9/iDQTABfNlvqrfI8l7hMseyh/cxC2jGPmnfv5eUV9ZWg5T7PL62FLHqhMcesPphg==
+  dependencies:
+    cross-spawn "^5.1.0"
+    electron "^1.6.11"
+    update-notifier "^2.2.0"
+    ws "^3.1.0"
+
 relay-runtime@1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-1.6.2.tgz#5ecd43d92799e761454200b455dd1c0cb0259659"
@@ -7532,7 +7542,7 @@ unzip-response@^2.0.1:
   resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-2.0.1.tgz#d2f0f737d16b0615e72a6935ed04214572d56f97"
   integrity sha1-0vD3N9FrBhXnKmk17QQhRXLVb5c=
 
-update-notifier@^2.1.0:
+update-notifier@^2.1.0, update-notifier@^2.2.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-2.5.0.tgz#d0744593e13f161e406acb1d9408b72cad08aff6"
   integrity sha512-gwMdhgJHGuj/+wHJJs9e6PcCszpxR1b236igrOkUofGhqJuG+amlIKwApH1IW1WWl7ovZxsX49lMBWLxSdm5Dw==
@@ -7766,7 +7776,7 @@ ws@^1.1.0:
     options ">=0.0.5"
     ultron "1.0.x"
 
-ws@^3.3.1:
+ws@^3.1.0, ws@^3.3.1:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ws/-/ws-3.3.3.tgz#f1cf84fe2d5e901ebce94efaece785f187a228f2"
   integrity sha512-nnWLa/NwZSt4KQJu51MYlCcSQ5g7INpOrOMt4XV8j4dqTXdmlUmSHQ8/oLC069ckre0fRsgfvsKwbTdtKLCDkA==
