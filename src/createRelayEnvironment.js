@@ -8,10 +8,12 @@ import {
   Store,
 } from 'relay-runtime';
 
+export const GRAPHQL_URL = 'http://localhost:5000/graphql';
+
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise:
 function fetchQuery(operation, variables, cacheConfig, uploadables) {
-  return fetch('http://localhost:5000/graphql', {
+  return fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

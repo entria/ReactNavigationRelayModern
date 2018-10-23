@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import styled from 'styled-components/native';
+import styled from 'styled-components';
 
 const Wrapper = styled.TouchableOpacity`
   justify-content: center;

@@ -28,7 +28,6 @@ type State = {
   isFetchingTop: boolean,
 };
 
-@withNavigation
 class UserList extends Component<any, Props, State> {
   static navigationOptions = {
     title: 'UserList',
@@ -187,7 +186,7 @@ const UserListQueryRenderer = () => {
   )
 };
 
-export default hoistStatics(UserListQueryRenderer, UserList);
+export default withNavigation(hoistStatics(UserListQueryRenderer, UserList));
 
 const styles = StyleSheet.create({
   container: {
