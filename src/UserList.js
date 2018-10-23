@@ -15,7 +15,7 @@ import {
 } from 'react-relay';
 import { createQueryRendererModern } from './relay';
 
-import { type UserList_query } from './__generated__/UserList_query.graphql';
+import type { UserList_query } from './__generated__/UserList_query.graphql';
 
 type Props = {
   query: UserList_query,
@@ -157,8 +157,7 @@ const UserListPaginationContainer = createPaginationContainer(
 );
 
 
-export default withNavigation(
-  createQueryRendererModern(
+export default createQueryRendererModern(
     UserListPaginationContainer,
     UserList,
     {
@@ -172,8 +171,7 @@ export default withNavigation(
       `,
       variables: {cursor: null, count: 1},
     },
-  )
-);
+  );
 
 const styles = StyleSheet.create({
   container: {
